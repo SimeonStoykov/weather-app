@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { getCityWeather } from './redux/actions';
+import { setCity, getCityWeather } from './redux/actions';
 import './App.less';
 import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
 
 const SEARCH_DELAY = 1000;
 
-function App({ handleGetCityWeather, widgetData }) {
-  const [city, setCity] = useState('Plovdiv');
-
+function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
   const { loading, error, weatherData } = widgetData;
-  const { main: { temp } = {}, weather = [] } = {} = weatherData;
+  const { main: { temp } = {}, weather = [] } = {} = weatherData || {};
   let weatherType = (weather[0] && weather[0].main) || '';
 
   const isFirstRun = useRef(true);
@@ -30,7 +28,8 @@ function App({ handleGetCityWeather, widgetData }) {
   }, [handleGetCityWeather, city]);
 
   function handleCityChange(e) {
-    setCity(e.target.value);
+    console.log(e.target.value);
+    handleSetCity(e.target.value);
   }
 
   function handleCityFocus() {
@@ -77,12 +76,15 @@ function App({ handleGetCityWeather, widgetData }) {
 }
 
 const mapStateToProps = state => {
-  const { weather: weatherData } = state;
-  return { widgetData: weatherData };
+  const { city, weatherData, loading, error } = state.weather;
+  return { city, widgetData: { loading, error, weatherData } };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    handleSetCity: city => {
+      dispatch(setCity(city));
+    },
     handleGetCityWeather: city => {
       dispatch(getCityWeather(city));
     }

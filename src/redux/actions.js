@@ -1,8 +1,16 @@
 import {
+  SET_CITY,
   GET_CITY_WEATHER_STARTED,
   GET_CITY_WEATHER_SUCCESS,
   GET_CITY_WEATHER_FAILURE
 } from './actionTypes';
+
+export const setCity = city => ({
+  type: SET_CITY,
+  payload: {
+    city
+  }
+});
 
 export const getCityWeather = city => {
   return dispatch => {
