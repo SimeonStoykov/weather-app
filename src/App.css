@@ -1,1 +1,85 @@
 
+.sunny {
+  background: #EEB625;
+}
+
+.rainy {
+  background: #61A9A6;
+}
+
+#widget #main-weather-info {
+  width: 375px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+#widget .temp {
+  font-size: 96px;
+}
+
+#widget .temp-small-icon {
+  position: relative;
+  right: 33px;
+}
+
+#widget .temp-unit {
+  font-size: 48px;
+  position: relative;
+  bottom: 36px;
+  right: 27px;
+}
+
+#widget .weather-type {
+  font-size: 25px;
+}
+
+.weather-type-small-icon {
+  position: relative;
+  left: 120px;
+  bottom: 76px;
+}
+
+#main-weather-info form input {
+  width: 200px;
+  height: 31px;
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+
+  color: #FFFFFF;
+}
+
+#sunny-weather-svg {
+  width: 375px;
+  height: 486px;
+  margin: 0 auto;
+}
+
+#woman-svg {
+  position: relative;
+  left: 105px;
+    bottom: 1002px;
+}
+
+#sun-shadow-svg {
+  position: relative;
+  bottom: 495px;
+}
+
+#main-weather-info form button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+#main-weather-info form button svg {
+  width: 16px;
+  height: 16px;
+}
