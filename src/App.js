@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { getCityWeather } from './redux/actions';
 import './App.less';
 import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
+
+const SEARCH_DELAY = 1000;
 
 function App({ handleGetCityWeather, widgetData }) {
   const [city, setCity] = useState('Plovdiv');
@@ -11,10 +13,18 @@ function App({ handleGetCityWeather, widgetData }) {
   const { main: { temp } = {}, weather = [] } = {} = weatherData;
   let weatherType = (weather[0] && weather[0].main) || '';
 
+  const isFirstRun = useRef(true);
+
   useEffect(() => {
+    if (isFirstRun.current) {
+      handleGetCityWeather(city);
+      isFirstRun.current = false;
+      return;
+    }
+
     const searchTimeout = setTimeout(() => {
       handleGetCityWeather(city);
-    }, 1000);
+    }, SEARCH_DELAY);
 
     return () => clearTimeout(searchTimeout);
   }, [handleGetCityWeather, city]);
