@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setCity, getCityWeather } from './redux/actions';
 import './App.less';
-import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
+import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons';
 
 const SEARCH_DELAY = 1000;
 
@@ -11,7 +11,11 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
   const { main: { temp } = {}, weather = [] } = {} = weatherData || {};
   let weatherType = (weather[0] && weather[0].main) || '';
 
+  const cityInputRef = useRef();
   const isFirstRun = useRef(true);
+
+  const [isLookupIconVisible, setIsLookupIconVisible] = useState(true);
+  const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -20,8 +24,13 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
       return;
     }
 
+    setIsSpinnerVisible(true);
+
     const searchTimeout = setTimeout(() => {
       handleGetCityWeather(city);
+      setIsSpinnerVisible(false);
+      cityInputRef.current.blur();
+
     }, SEARCH_DELAY);
 
     return () => clearTimeout(searchTimeout);
@@ -33,7 +42,11 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
   }
 
   function handleCityFocus() {
-    console.log('hide lupa');
+    setIsLookupIconVisible(false);
+  }
+
+  function handleCityBlur() {
+    setIsLookupIconVisible(true);
   }
 
   let widgetClasses = 'sunny';
@@ -45,8 +58,9 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
       <div id="widget" className={widgetClasses}>
         <div id="main-weather-info">
           <form>
-            <input type="text" value={city} onChange={handleCityChange} onFocus={handleCityFocus} />
-            {lookingGlass}
+            <input type="text" ref={cityInputRef} value={city} onChange={handleCityChange} onFocus={handleCityFocus} onBlur={handleCityBlur} />
+            {isLookupIconVisible && lookingGlass}
+            {isSpinnerVisible && <div className="spinner">Loading...</div>}
           </form>
           {loading ? <div>Loading...</div> : (
             <>
