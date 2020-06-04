@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getCityWeather } from './redux/actions';
-import './App.css';
+import './App.less';
 import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
 
 function App({ handleGetCityWeather, widgetData }) {
@@ -13,7 +13,6 @@ function App({ handleGetCityWeather, widgetData }) {
 
   useEffect(() => {
     const searchTimeout = setTimeout(() => {
-      console.log(city);
       handleGetCityWeather(city);
     }, 1000);
 
@@ -25,11 +24,12 @@ function App({ handleGetCityWeather, widgetData }) {
   }
 
   function handleCityFocus() {
-    console.log('hide lupa')
+    console.log('hide lupa');
   }
 
   let widgetClasses = 'sunny';
   if (weatherType && weatherType !== 'Clear' && weatherType !== 'Clouds') widgetClasses = 'rainy';
+  const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
 
   return (
     <div className="App">
@@ -42,7 +42,7 @@ function App({ handleGetCityWeather, widgetData }) {
           {loading ? <div>Loading...</div> : (
             <>
               <div>
-                <span className="temp">{temp}°</span>
+                <span className="temp">{displayTemp}°</span>
                 <span className="temp-small-icon">{smallSunIcon}</span>
                 <span className="temp-unit">C</span>
               </div>
