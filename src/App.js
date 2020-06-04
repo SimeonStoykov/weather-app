@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setCity, getCityWeather } from './redux/actions';
 import './App.less';
-import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons';
+import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
 
 const SEARCH_DELAY = 1000;
 
