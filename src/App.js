@@ -80,14 +80,16 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
     if (error) return <div>Error: {error}</div>;
     const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
     return (
-      <React.Fragment>
+      <div id="temp-info">
         <div>
-          <span className="temp">{displayTemp}° <span className="temp-unit">C</span></span>
+          <span className="temp">{displayTemp}°</span>
+          <span className="temp-unit">C</span>
           <span className="temp-small-icon">{weatherTypeAssets[currCityWeatherType].smallIcon}</span>
         </div>
-        <div className="weather-type">{weatherType}</div>
+        <p className="weather-type">{weatherType}</p>
+        <a href="#" className="more-details-link">More details ></a>
         {weatherTypeAssets[currCityWeatherType].bigImage}
-      </React.Fragment>
+      </div>
     );
   }
 
