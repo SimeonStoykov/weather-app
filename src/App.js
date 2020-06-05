@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setCity, getCityWeather } from './redux/actions';
 import './App.less';
-import { smallSunIcon, woman, sun, sunShadow, lookingGlass } from './SvgIcons.jsx';
+import { smallSunIcon, smallRainIcon, woman, sun, sunShadow, lookingGlass, cloud, wholeCloud } from './SvgIcons.jsx';
 
 const SEARCH_DELAY = 1000;
 
@@ -49,40 +49,66 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
     setIsLookupIconVisible(true);
   }
 
-  let widgetClasses = 'sunny';
-  if (weatherType && weatherType !== 'Clear' && weatherType !== 'Clouds') widgetClasses = 'rainy';
-  const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
+  let currCityWeatherType = 'default';
+
+  if (weatherType) {
+    if (weatherType === 'Clear' || weatherType === 'Clouds') currCityWeatherType = 'sunny';
+    else currCityWeatherType = 'rainy';
+  }
+
+  const weatherTypeAssets = {
+    sunny: {
+      smallIcon: smallSunIcon,
+      bigImage: <div id="sunny-weather-svg">
+        {sun}
+        {sunShadow}
+        {woman}
+      </div>
+    },
+    rainy: {
+      smallIcon: smallRainIcon,
+      bigImage: <div id="rainy-weather-svg">
+        {woman}
+        {cloud}
+      </div>
+    }
+  };
+
+  function getWidgetData() {
+    if (currCityWeatherType === 'default') return;
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
+    return (
+      <React.Fragment>
+        <div>
+          <span className="temp">{displayTemp}° <span className="temp-unit">C</span></span>
+          <span className="temp-small-icon">{weatherTypeAssets[currCityWeatherType].smallIcon}</span>
+        </div>
+        <div className="weather-type">{weatherType}</div>
+        {weatherTypeAssets[currCityWeatherType].bigImage}
+      </React.Fragment>
+    );
+  }
 
   return (
     <div className="App">
-      <div id="widget" className={widgetClasses}>
+      <div id="widget" className={currCityWeatherType}>
         <div id="main-weather-info">
           <form>
-            <input type="text" ref={cityInputRef} value={city} onChange={handleCityChange} onFocus={handleCityFocus} onBlur={handleCityBlur} />
+            <input
+              type="text"
+              ref={cityInputRef}
+              value={city}
+              placeholder='type location...'
+              onChange={handleCityChange}
+              onFocus={handleCityFocus}
+              onBlur={handleCityBlur}
+            />
             {isLookupIconVisible && lookingGlass}
             {isSpinnerVisible && <div className="spinner">Loading...</div>}
           </form>
-          {loading ? <div>Loading...</div> : (
-            <>
-              <div>
-                <span className="temp">{displayTemp}°</span>
-                <span className="temp-small-icon">{smallSunIcon}</span>
-                <span className="temp-unit">C</span>
-              </div>
-              <div className="weather-type">{weatherType}</div>
-              <div id="sunny-weather-svg">
-                {sun}
-                {sunShadow}
-                {woman}
-              </div>
-            </>
-          )}
-        </div>
-
-        <div id="rainy-weather-svg">
-          {/* {sun}
-          {sunShadow}
-          {woman} */}
+          {getWidgetData()}
         </div>
       </div>
     </div>
