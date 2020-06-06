@@ -20,7 +20,7 @@ export const smallSunIcon =
   </svg>;
 
 export const woman =
-  <svg id="woman-svg" width="219" height="316" viewBox="0 0 219 316" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg id="woman-svg" width="218" height="316" viewBox="0 0 219 316" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M99.3513 115.261C109.151 113.034 109.374 102.825 108.26 97.9997C112.529 98.3709 123.183 99.4474 131.647 100.784C130.31 112.366 134.431 112.663 136.658 111.363L119.954 134.75C114.571 130.109 102.915 119.716 99.3513 115.261Z" fill="#FEDEA3" />
     <circle cx="124.965" cy="67.3748" r="30.6249" fill="#302F41" />
     <circle cx="121.624" cy="81.852" r="22.8295" fill="#FEDEA3" />

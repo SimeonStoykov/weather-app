@@ -19,6 +19,7 @@ export const getCityWeather = city => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=3df237fbeefe24f961c22d583f87355e`)
       .then(response => response.json())
       .then(res => {
+        // remove
         console.log('res', res);
         dispatch(getCityWeatherSuccess(res));
       })

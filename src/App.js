@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { setCity, getCityWeather } from './redux/actions';
 import './App.less';
-import { smallSunIcon, smallRainIcon, woman, sun, sunShadow, lookingGlass, cloud, wholeCloud } from './SvgIcons.jsx';
+import { lookingGlass } from './SvgIcons.jsx';
+import weatherTypeAssets from './WeatherTypeAssets.jsx';
 
 const SEARCH_DELAY = 1000;
 
@@ -37,7 +38,6 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
   }, [handleGetCityWeather, city]);
 
   function handleCityChange(e) {
-    console.log(e.target.value);
     handleSetCity(e.target.value);
   }
 
@@ -56,24 +56,6 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
     else currCityWeatherType = 'rainy';
   }
 
-  const weatherTypeAssets = {
-    sunny: {
-      smallIcon: smallSunIcon,
-      bigImage: <div id="sunny-weather-svg">
-        {sun}
-        {sunShadow}
-        {woman}
-      </div>
-    },
-    rainy: {
-      smallIcon: smallRainIcon,
-      bigImage: <div id="rainy-weather-svg">
-        {woman}
-        {cloud}
-      </div>
-    }
-  };
-
   function getWidgetData() {
     if (currCityWeatherType === 'default') return;
     if (loading) return <div>Loading...</div>;
@@ -81,7 +63,7 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
     const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
     return (
       <div id="temp-info">
-        <div>
+        <div className="temp-parts">
           <span className="temp">{displayTemp}°</span>
           <span className="temp-unit">C</span>
           <span className="temp-small-icon">{weatherTypeAssets[currCityWeatherType].smallIcon}</span>
