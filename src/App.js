@@ -57,9 +57,9 @@ function App({ city, handleGetCityWeather, widgetData, handleSetCity }) {
   }
 
   function getWidgetData() {
-    if (currCityWeatherType === 'default') return;
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
+    if (currCityWeatherType === 'default') return <div> No data for this location. Type another and try again.</div>;
     const displayTemp = temp ? Math.round(temp * 10) / 10 : '';
     return (
       <div id="temp-info">
